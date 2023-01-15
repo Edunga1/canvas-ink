@@ -22,6 +22,7 @@ class App {
 
   #initCanvas() {
     this.#resize()
+    this.context.globalCompositeOperation = 'saturation'
 
     document.body.appendChild(this.canvas)
 
@@ -55,9 +56,6 @@ class App {
 
   #drawBackground() {
     this.context.clearRect(0, 0, this.width, this.height)
-    this.context.fillStyle = '#9BBBD4'
-    this.context.fillRect(0, 0, this.width, this.height)
-    this.context.fill()
   }
 
   #drawInks() {
