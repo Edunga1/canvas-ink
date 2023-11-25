@@ -6,12 +6,12 @@ export default class Ink extends Shape {
   constructor() {
     super()
     this.circle = new Circle()
-    this.circle.radius = 50
+    this.circle.radius = 60
     this.circle.elasticity = .01
     this.circle.velocity = new Vector(0, .5)
     this.circle.mass = 1
     this.circle.friction = .15
-    this.exaggeration = 1.5
+    this.visibleRadius = 75
     this.fgColor = '#FFF'
   }
 
@@ -20,7 +20,7 @@ export default class Ink extends Shape {
     ctx.arc(
       this.circle.pos.x,
       this.circle.pos.y,
-      this.circle.radius * this.exaggeration,
+      this.visibleRadius,
       0,
       2 * Math.PI
     )

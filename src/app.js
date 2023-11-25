@@ -9,13 +9,19 @@ class App {
     this.shapes = []
     /** @type Circle[] */
     this.bodies = []
-    this.inkGenerator = new InkGenerator(this.addShape.bind(this))
+    this.inkGenerator = new InkGenerator(this.#addShape.bind(this))
 
     this.#initCanvas()
     this.#createInitialInks()
   }
 
-  addShape(shape, body) {
+  animate() {
+    this.#update()
+    this.#drawBackground()
+    this.#drawInks()
+  }
+
+  #addShape(shape, body) {
     this.shapes.push(shape)
     this.bodies.push(body)
   }
@@ -27,8 +33,6 @@ class App {
     document.body.appendChild(this.canvas)
 
     window.addEventListener('resize', this.#resize.bind(this))
-
-    requestAnimationFrame(this.#animate.bind(this))
   }
 
   #resize() {
@@ -38,14 +42,7 @@ class App {
     this.canvas.height = this.height
   }
 
-  #animate() {
-    this.#updateBodies()
-    this.#drawBackground()
-    this.#drawInks()
-    requestAnimationFrame(this.#animate.bind(this))
-  }
-
-  #updateBodies() {
+  #update() {
     this.bodies.forEach(i => {
       const targets = [...this.bodies]
       targets.forEach(j => {
@@ -63,12 +60,19 @@ class App {
   }
 
   #createInitialInks() {
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 1000; i++) {
       this.inkGenerator.createInk(this.width / 2, this.height / 2)
+    }
+    for (let i = 0; i < 100; i++) {
+      this.#update()
     }
   }
 }
 
 window.onload = () => {
-  new App()
+  const app = new App()
+  requestAnimationFrame(function tick() {
+    app.animate()
+    requestAnimationFrame(tick)
+  })
 }
