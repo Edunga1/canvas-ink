@@ -28,9 +28,5 @@ export default class Ink extends Shape {
     ctx.closePath()
     ctx.fill()
   }
-
-  toString() {
-    return this.circle.toString()
-  }
 }
 
