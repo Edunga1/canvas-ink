@@ -15,6 +15,9 @@ export default class Ink extends Shape {
     this.fgColor = '#FFF'
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   * */
   draw(ctx) {
     ctx.beginPath()
     ctx.arc(
@@ -25,8 +28,25 @@ export default class Ink extends Shape {
       2 * Math.PI
     )
     ctx.fillStyle = this.fgColor
+    if (this.highlighted) {
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.strokeStyle = '#000'
+      ctx.lineWidth = 10
+      ctx.stroke()
+    }
     ctx.closePath()
     ctx.fill()
   }
-}
 
+  isInside(/** @type Vector */ pos) {
+    return this.circle.pos.distance(pos) < this.visibleRadius
+  }
+
+  getIntersects(
+    /** @type Ink[] */ inks,
+  ) {
+    return inks.filter(i => {
+      return i.circle.pos.distance(this.circle.pos) < this.visibleRadius + i.circle.radius
+    })
+  }
+}
