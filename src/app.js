@@ -39,7 +39,7 @@ class App {
     this.#getInks(x, y).true.forEach(i => i.interact())
   }
 
-  #addShape(shape, body) {
+  #addShape(shape) {
     this.shapes.push(shape)
   }
 
