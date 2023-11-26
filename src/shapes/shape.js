@@ -7,6 +7,12 @@ export default class Shape {
     throw new Error("Implement this.")
   }
 
+  interact() { /** do nothing */ }
+
+  collideShape(shape) {
+    throw new Error("Implement this.")
+  }
+
   draw(ctx) {
     throw new Error("Implement this.")
   }

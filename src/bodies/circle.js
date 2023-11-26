@@ -10,12 +10,13 @@ export default class Circle extends Unit {
    * @param {Circle} circle
    */
   _collideCircle(circle) {
-    if (circle == this) return
-    if (this.isFixed) return
-    if (!this.#intersectsCircle(circle)) return
+    if (circle == this) return false
+    if (this.isFixed) return false
+    if (!this.#intersectsCircle(circle)) return false
 
     this.#penetrationResolutionCircle(circle)
     this.#collideResolutionCircle(circle)
+    return true
   }
 
   _limitBoundary() {

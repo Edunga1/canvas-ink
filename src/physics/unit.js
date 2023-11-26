@@ -26,9 +26,13 @@ export default class Unit {
 
   _limitBoundary() {}
 
+  /**
+   * @returns {boolean}
+   * */
   collideCircle() {
-    this._collideCircle(...arguments)
+    const collided = this._collideCircle(...arguments)
     this._limitBoundary()
+    return collided
   }
 
   toString() {
