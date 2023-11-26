@@ -9,8 +9,6 @@ class App {
     this.context = this.canvas.getContext('2d')
     /** @type Shape[] */
     this.shapes = []
-    /** @type Circle[] */
-    this.bodies = []
     this.inkGenerator = new InkGenerator(this.#addShape.bind(this))
 
     this.#initCanvas()
@@ -38,23 +36,11 @@ class App {
    * @param {number} y
    * */
   colorInks(x, y) {
-    const targets = this.#getInks(x, y).true
-    const spreadTargets = [...targets]
-    let lastTargets = [...targets]
-    for (let depth = 0; depth < 3; depth++) {
-      const newTargets = lastTargets.reduce((acc, i) => {
-        return acc.concat(i.getIntersects(this.shapes))
-      }, [])
-      spreadTargets.push(...newTargets)
-      lastTargets = newTargets
-    }
-    spreadTargets.forEach(i => i.fgColor = 'black')
-    // TODO: refactor alhgorithm. very slow.
+    this.#getInks(x, y).true.forEach(i => i.interact())
   }
 
   #addShape(shape, body) {
     this.shapes.push(shape)
-    this.bodies.push(body)
   }
 
   #initCanvas() {
@@ -75,10 +61,9 @@ class App {
   }
 
   #update() {
-    this.bodies.forEach(i => {
-      const targets = [...this.bodies]
-      targets.forEach(j => {
-        i.collideCircle(j)
+    this.shapes.forEach(i => {
+      this.shapes.forEach(j => {
+        i.collideShape(j)
       })
     })
   }
@@ -92,9 +77,8 @@ class App {
   }
 
   #createInitialInks() {
-    for (let i = 0; i < 400; i++) {
-      this.inkGenerator.createInk()
-    }
+    this.inkGenerator.createMassInk()
+    // skip frames
     for (let i = 0; i < 100; i++) {
       this.#update()
     }
@@ -110,7 +94,7 @@ class App {
     return this.shapes.reduce((acc, i) => {
       acc[i.isInside(pos)].push(i)
       return acc
-    }, {true: [], false: []}
+    }, { true: [], false: [] }
     )
   }
 }

@@ -12,7 +12,7 @@ export default class Ink extends Shape {
     this.circle.mass = 1
     this.circle.friction = .15
     this.visibleRadius = 75
-    this.fgColor = '#FFF'
+    this.color = new Color()
   }
 
   /**
@@ -27,7 +27,8 @@ export default class Ink extends Shape {
       0,
       2 * Math.PI
     )
-    ctx.fillStyle = this.fgColor
+    const color = this.color.reversed
+    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
     if (this.highlighted) {
       ctx.globalCompositeOperation = 'source-over'
       ctx.strokeStyle = '#000'
@@ -36,6 +37,27 @@ export default class Ink extends Shape {
     }
     ctx.closePath()
     ctx.fill()
+  }
+
+  /**
+   * @param {Shape} shape
+   * */
+  collideShape(shape) {
+    if (!(shape instanceof Ink)) {
+      return
+    }
+
+    if (!this.circle.collideCircle(shape.circle)) {
+      return
+    }
+
+    this.#mix(shape)
+  }
+
+  interact() {
+    this.color.g = 255
+    this.color.b = 255
+    this.color.deepens()
   }
 
   isInside(/** @type Vector */ pos) {
@@ -48,5 +70,34 @@ export default class Ink extends Shape {
     return inks.filter(i => {
       return i.circle.pos.distance(this.circle.pos) < this.visibleRadius + i.circle.radius
     })
+  }
+  
+  #mix(/** @type Ink */ ink) {
+    // TODO: implement this
+  }
+}
+
+class Color {
+  constructor() {
+    this.r = 0
+    this.g = 0
+    this.b = 0
+    this.a = 0
+  }
+
+  get reversed() {
+    const color = new Color()
+    color.r = 255 - this.r
+    color.g = 255 - this.g
+    color.b = 255 - this.b
+    color.a = this.a
+    return color
+  }
+
+  deepens() {
+    if (this.a == 0) {
+      this.a = .1
+    }
+    this.a = Math.min(1, this.a * 1.1)
   }
 }
