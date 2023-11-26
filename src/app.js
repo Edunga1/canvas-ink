@@ -40,6 +40,7 @@ class App {
     this.height = document.body.clientHeight
     this.canvas.width = this.width
     this.canvas.height = this.height
+    this.inkGenerator.resize(this.width, this.height)
   }
 
   #update() {
@@ -60,8 +61,8 @@ class App {
   }
 
   #createInitialInks() {
-    for (let i = 0; i < 1000; i++) {
-      this.inkGenerator.createInk(this.width / 2, this.height / 2)
+    for (let i = 0; i < 200; i++) {
+      this.inkGenerator.createInk()
     }
     for (let i = 0; i < 100; i++) {
       this.#update()
