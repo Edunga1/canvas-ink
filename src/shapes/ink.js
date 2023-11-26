@@ -32,7 +32,8 @@ export default class Ink extends Shape {
     if (this.highlighted) {
       ctx.globalCompositeOperation = 'source-over'
       ctx.strokeStyle = '#000'
-      ctx.lineWidth = 10
+      ctx.setLineDash([15, 5])
+      ctx.lineWidth = 3
       ctx.stroke()
     }
     ctx.closePath()

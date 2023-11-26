@@ -34,6 +34,6 @@ export default class InkGenerator {
     ink.circle.boundStart = new Vector(-this.width / 10, -this.height / 10)
     ink.circle.boundEnd = new Vector(this.width + this.width / 10, this.height + this.height / 10)
 
-    this.notifyFunc(ink, ink.circle)
+    this.notifyFunc(ink)
   }
 }
