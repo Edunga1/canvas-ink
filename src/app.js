@@ -1,4 +1,6 @@
 import InkGenerator from "./ink-generator.js"
+import Vector from "./physics/vector.js"
+import Shape from "./shapes/shape.js" // eslint-disable-line no-unused-vars
 
 class App {
   constructor() {
@@ -19,6 +21,35 @@ class App {
     this.#update()
     this.#drawBackground()
     this.#drawInks()
+  }
+
+  /**
+   * @param {number} x
+   * @param {number} y
+   * */
+  enableHighlight(x, y) {
+    const inks = this.#getInks(x, y)
+    inks.true.forEach(i => i.highlighted = true)
+    inks.false.forEach(i => i.highlighted = false)
+  }
+
+  /**
+   * @param {number} x
+   * @param {number} y
+   * */
+  colorInks(x, y) {
+    const targets = this.#getInks(x, y).true
+    const spreadTargets = [...targets]
+    let lastTargets = [...targets]
+    for (let depth = 0; depth < 3; depth++) {
+      const newTargets = lastTargets.reduce((acc, i) => {
+        return acc.concat(i.getIntersects(this.shapes))
+      }, [])
+      spreadTargets.push(...newTargets)
+      lastTargets = newTargets
+    }
+    spreadTargets.forEach(i => i.fgColor = 'black')
+    // TODO: refactor alhgorithm. very slow.
   }
 
   #addShape(shape, body) {
@@ -68,6 +99,20 @@ class App {
       this.#update()
     }
   }
+
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @returns {{true: Shape[], false: Shape[]}}
+   * */
+  #getInks(x, y) {
+    const pos = new Vector(x, y)
+    return this.shapes.reduce((acc, i) => {
+      acc[i.isInside(pos)].push(i)
+      return acc
+    }, {true: [], false: []}
+    )
+  }
 }
 
 window.onload = () => {
@@ -75,5 +120,13 @@ window.onload = () => {
   requestAnimationFrame(function tick() {
     app.animate()
     requestAnimationFrame(tick)
+  })
+
+  window.addEventListener('mousemove', e => {
+    app.enableHighlight(e.clientX, e.clientY)
+  })
+
+  window.addEventListener('click', e => {
+    app.colorInks(e.clientX, e.clientY)
   })
 }

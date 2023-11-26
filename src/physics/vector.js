@@ -51,6 +51,13 @@ export default class Vector {
     return this.x * vector.x + this.y * vector.y
   }
 
+  distance(
+    /** @type Vector */
+    vector,
+  ) {
+    return Math.sqrt((this.x - vector.x) ** 2 + (this.y - vector.y) ** 2)
+  }
+
   toString() {
     return `${this.x}, ${this.y}`
   }
