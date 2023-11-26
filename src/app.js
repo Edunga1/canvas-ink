@@ -106,11 +106,25 @@ window.onload = () => {
     requestAnimationFrame(tick)
   })
 
+  // events
+  let isMouseDown = false
   window.addEventListener('mousemove', e => {
     app.enableHighlight(e.clientX, e.clientY)
+    if (isMouseDown) {
+      app.colorInks(e.clientX, e.clientY)
+    }
   })
 
-  window.addEventListener('click', e => {
-    app.colorInks(e.clientX, e.clientY)
+  window.addEventListener('mousedown', () => {
+    isMouseDown = true
+  })
+  window.addEventListener('mouseup', () => {
+    isMouseDown = false
+  })
+  window.addEventListener('touchstart', () => {
+    isMouseDown = true
+  })
+  window.addEventListener('touchend', () => {
+    isMouseDown = false
   })
 }
