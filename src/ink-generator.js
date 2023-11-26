@@ -35,8 +35,8 @@ export default class InkGenerator {
     ink.fgColor = this.colors[colorIndex]
     ink.circle.pos.x = this.width / 2 + (Math.random() - 0.5) * 20
     ink.circle.pos.y = this.height / 2 + (Math.random() - 0.5) * 20
-    ink.circle.boundStart = new Vector(50, 50)
-    ink.circle.boundEnd = new Vector(this.width - 50, this.height - 50)
+    ink.circle.boundStart = new Vector(-this.width / 10, -this.height / 10)
+    ink.circle.boundEnd = new Vector(this.width + this.width / 10, this.height + this.height / 10)
 
     this.notifyFunc(ink, ink.circle)
 

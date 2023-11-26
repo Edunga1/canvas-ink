@@ -61,7 +61,7 @@ class App {
   }
 
   #createInitialInks() {
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 400; i++) {
       this.inkGenerator.createInk()
     }
     for (let i = 0; i < 100; i++) {
