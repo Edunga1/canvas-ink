@@ -3,6 +3,10 @@ import Vector from "./vector.js"
 export default class Unit {
   constructor() {
     this.pos = new Vector(0, 0)
+    /** @type Vector */
+    this.boundStart = null
+    /** @type Vector */
+    this.boundEnd = null
     this.isFixed = false
     this.friction = .05
     this.elasticity = 1
@@ -16,20 +20,15 @@ export default class Unit {
     return 1 / this.mass
   }
 
-  reposition() {
-    if (this.isFixed) return
-    this.acceleration = this.acceleration.unit().multiply(this.accelerationScalar)
-    this.velocity = this.velocity.add(this.acceleration)
-    this.velocity = this.velocity.multiply(1 - this.friction)
-    this.pos = this.pos.add(this.velocity)
+  _collideCircle() {
+    throw new Error("Implement this.")
   }
+
+  _limitBoundary() {}
 
   collideCircle() {
-    throw new Error("Implement this.")
-  }
-
-  collideLine() {
-    throw new Error("Implement this.")
+    this._collideCircle(...arguments)
+    this._limitBoundary()
   }
 
   toString() {

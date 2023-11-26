@@ -44,12 +44,33 @@ export default class Circle extends Unit {
   /**
    * @param {Circle} circle
    */
-  collideCircle(circle) {
+  _collideCircle(circle) {
     if (circle == this) return
     if (this.isFixed) return
     if (!this.#intersectsCircle(circle)) return
 
     this.#penetrationResolutionCircle(circle)
     this.#collideResolutionCircle(circle)
+  }
+
+  _limitBoundary() {
+    if (this.isFixed) return
+
+    if (this.boundStart && this.pos.x - this.radius < this.boundStart.x) {
+      this.pos.x = this.boundStart.x + this.radius
+      this.velocity.x *= -this.elasticity
+    }
+    if (this.boundEnd && this.pos.x + this.radius > this.boundEnd.x) {
+      this.pos.x = this.boundEnd.x - this.radius
+      this.velocity.x *= -this.elasticity
+    }
+    if (this.boundStart && this.pos.y - this.radius < this.boundStart.y) {
+      this.pos.y = this.boundStart.y + this.radius
+      this.velocity.y *= -this.elasticity
+    }
+    if (this.boundEnd && this.pos.y + this.radius > this.boundEnd.y) {
+      this.pos.y = this.boundEnd.y - this.radius
+      this.velocity.y *= -this.elasticity
+    }
   }
 }
