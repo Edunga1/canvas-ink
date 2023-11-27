@@ -114,6 +114,12 @@ window.onload = () => {
       app.colorInks(e.clientX, e.clientY)
     }
   })
+  window.addEventListener('touchmove', e => {
+    app.enableHighlight(e.touches[0].clientX, e.touches[0].clientY)
+    if (isMouseDown) {
+      app.colorInks(e.touches[0].clientX, e.touches[0].clientY)
+    }
+  })
 
   window.addEventListener('mousedown', () => {
     isMouseDown = true
