@@ -8,14 +8,13 @@ export default class InkGenerator {
     this.height = 0
     this.inkRadius = 10
     this.inkVisibleRadius = 20
-    this.inkAmount = 100
+    this.inkAmount = 1000
   }
 
   resize(width, height) {
     this.width = width
     this.height = height
-    this.inkAmount = Math.floor(width * height / 700)
-    this.inkRadius = Math.sqrt(width * height) / this.inkAmount * 20
+    this.inkRadius = Math.sqrt(width * height) / 50
     this.inkVisibleRadius = this.inkRadius * 1.5
   }
 
