@@ -72,7 +72,7 @@ export default class Ink extends Shape {
       return i.circle.pos.distance(this.circle.pos) < this.visibleRadius + i.circle.radius
     })
   }
-  
+
   #mix(/** @type Ink */ ink) {
     // TODO: implement this
   }
