@@ -3,17 +3,20 @@ export default class Shape {
     this.highlighted = false
   }
 
-  isInside(pos) {
+  // eslint-disable-next-line no-unused-vars
+  isInside(_pos) {
     throw new Error("Implement this.")
   }
 
   interact() { /** do nothing */ }
 
-  collideShape(shape) {
+  // eslint-disable-next-line no-unused-vars
+  collideShape(_shape) {
     throw new Error("Implement this.")
   }
 
-  draw(ctx) {
+  // eslint-disable-next-line no-unused-vars
+  draw(_ctx) {
     throw new Error("Implement this.")
   }
 }
